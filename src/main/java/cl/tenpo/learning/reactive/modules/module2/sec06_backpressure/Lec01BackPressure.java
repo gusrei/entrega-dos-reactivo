@@ -28,11 +28,12 @@ public class Lec01BackPressure {
                 // .onBackpressureError()
                 // .onBackpressureBuffer(10)
                 // .onBackpressureDrop()
-                .onBackpressureLatest()
+                // .onBackpressureLatest()
                 .log()
                 .limitRate(1)
                 .publishOn(Schedulers.boundedElastic())
                 .map(Lec01BackPressure::timeConsumingTask)
+                .doOnDiscard(Object.class, discarded -> log.info("Discarded elem: {}", discarded))
                 .subscribe();
 
         ModuleUtils.sleepSeconds(60);

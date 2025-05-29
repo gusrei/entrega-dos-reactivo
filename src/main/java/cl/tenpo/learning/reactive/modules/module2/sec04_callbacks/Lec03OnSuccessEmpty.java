@@ -1,4 +1,4 @@
-package cl.tenpo.learning.reactive.modules.module2.sec03_callbacks;
+package cl.tenpo.learning.reactive.modules.module2.sec04_callbacks;
 
 import cl.tenpo.learning.reactive.utils.ModuleUtils;
 import lombok.extern.slf4j.Slf4j;

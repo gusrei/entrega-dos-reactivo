@@ -1,18 +1,18 @@
-package cl.tenpo.learning.reactive.modules.module2.sec04_errors;
+package cl.tenpo.learning.reactive.modules.module2.sec03_errors;
 
 import cl.tenpo.learning.reactive.utils.ModuleUtils;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Slf4j
-public class Lec02OnErrorReturn {
+public class Lec05OnErrorComplete {
 
     public static void main(String[] args) {
 
-        Mono.just("Hello")
+        Mono.just("input")
                 .flatMap(next -> someFunctionThatReturnsError())
                 .doOnError(err -> log.error("Emitted onError: {}", err.getMessage()))
-                .onErrorReturn("Fallback constant")
+                .onErrorComplete()
                 .subscribe(ModuleUtils.subscriber());
 
         ModuleUtils.sleepSeconds(5);

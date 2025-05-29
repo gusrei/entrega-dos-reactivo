@@ -1,4 +1,4 @@
-package cl.tenpo.learning.reactive.modules.module2.sec04_errors;
+package cl.tenpo.learning.reactive.modules.module2.sec03_errors;
 
 import cl.tenpo.learning.reactive.utils.ModuleUtils;
 import lombok.extern.slf4j.Slf4j;
