@@ -53,5 +53,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    exclude 'cl/tenpo/learning/reactive/tasks/task1/**'
+    //exclude 'cl/tenpo/learning/reactive/tasks/task1/**'
 }

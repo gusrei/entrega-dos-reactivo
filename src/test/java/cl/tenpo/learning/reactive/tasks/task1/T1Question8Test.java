@@ -29,22 +29,26 @@ public class T1Question8Test {
     @DisplayName("PREGUNTA 8 - Transacción autorizada")
     void question8_uc1_test() {
 
-        when(transactionServiceMock.authorizeTransaction(11111))
+        int transactionId = 11111;
+
+        when(transactionServiceMock.authorizeTransaction(transactionId))
                 .thenReturn(Mono.just("Autorizado"));
 
-        Mono<String> outputMono = t1Question8.question8();
+        Mono<String> outputMono = t1Question8.question8(transactionId);
 
         StepVerifier.create(outputMono.log())
                 .expectNext("Autorizado")
                 .verifyComplete();
 
-        verify(transactionServiceMock, times(1)).authorizeTransaction(11111);
+        verify(transactionServiceMock, times(1)).authorizeTransaction(transactionId);
         verifyNoMoreInteractions(transactionServiceMock);
     }
 
     @Test
     @DisplayName("PREGUNTA 8 - Transacción autorizada - 1 retry")
     void question8_uc2_test() {
+
+        int transactionId = 11111;
 
         AtomicInteger counter = new AtomicInteger(0);
 
@@ -53,16 +57,16 @@ public class T1Question8Test {
                 .map(__ -> "Autorizado")
                 .switchIfEmpty(Mono.error(() -> new RuntimeException("Fallo inicial"))));
 
-        when(transactionServiceMock.authorizeTransaction(11111))
+        when(transactionServiceMock.authorizeTransaction(transactionId))
                 .thenReturn(mockAuthorization);
 
-        Mono<String> outputMono = t1Question8.question8();
+        Mono<String> outputMono = t1Question8.question8(transactionId);
 
         StepVerifier.create(outputMono.log())
                 .expectNext("Autorizado")
                 .verifyComplete();
 
-        verify(transactionServiceMock, times(1)).authorizeTransaction(11111);
+        verify(transactionServiceMock, times(1)).authorizeTransaction(transactionId);
         verifyNoMoreInteractions(transactionServiceMock);
     }
 
@@ -70,15 +74,17 @@ public class T1Question8Test {
     @DisplayName("PREGUNTA 8 - Transacción autorizada - service timeout & AuthorizationTimeoutException")
     void question8_uc3_test() {
 
-        when(transactionServiceMock.authorizeTransaction(11111)).thenReturn(Mono.never());
+        int transactionId = 11111;
 
-        Mono<String> outputMono = t1Question8.question8();
+        when(transactionServiceMock.authorizeTransaction(transactionId)).thenReturn(Mono.never());
+
+        Mono<String> outputMono = t1Question8.question8(transactionId);
 
         StepVerifier.create(outputMono.log())
                 .expectError(AuthorizationTimeoutException.class)
                 .verify();
 
-        verify(transactionServiceMock, times(1)).authorizeTransaction(11111);
+        verify(transactionServiceMock, times(1)).authorizeTransaction(transactionId);
         verifyNoMoreInteractions(transactionServiceMock);
     }
 
@@ -86,15 +92,17 @@ public class T1Question8Test {
     @DisplayName("PREGUNTA 8 - Transacción autorizada - 3 retries & PaymentProcessingException")
     void question8_uc4_test() {
 
-        when(transactionServiceMock.authorizeTransaction(11111)).thenReturn(Mono.error(new RuntimeException("Falla crítica")));
+        int transactionId = 11111;
 
-        Mono<String> outputMono = t1Question8.question8();
+        when(transactionServiceMock.authorizeTransaction(transactionId)).thenReturn(Mono.error(new RuntimeException("Falla crítica")));
+
+        Mono<String> outputMono = t1Question8.question8(transactionId);
 
         StepVerifier.create(outputMono.log())
                 .expectError(PaymentProcessingException.class)
                 .verify();
 
-        verify(transactionServiceMock, times(1)).authorizeTransaction(11111);
+        verify(transactionServiceMock, times(1)).authorizeTransaction(transactionId);
         verifyNoMoreInteractions(transactionServiceMock);
     }
 }

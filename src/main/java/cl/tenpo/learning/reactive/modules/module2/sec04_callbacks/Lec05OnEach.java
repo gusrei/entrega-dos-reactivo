@@ -24,7 +24,7 @@ public class Lec05OnEach {
             log.info("Signal value is null -> {}", signal.get());
             log.info("Emitted onComplete");
         } else if(signal.isOnError()) {
-            log.error("Emitted onError {}", signal.get());
+            log.error("Emitted onError {}", signal.getThrowable().getMessage());
         } else if(signal.isOnNext()) {
             log.info("Emitted onNext {}", signal.get());
         }
