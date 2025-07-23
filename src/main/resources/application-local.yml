@@ -1,18 +1,19 @@
-APPLICATION_PORT: 8083
-
-POSTGRES_USER: postgresql
-POSTGRES_PASS: postgresql
-POSTGRES_HOST: localhost
-POSTGRES_PORT: 5432
-POSTGRES_DB_NAME: learning_reactive_r2dbc
-
-MONGO_USER: mongodb
-MONGO_PASS: mongodb
-MONGO_HOST: 127.0.0.1:27017
-MONGO_DB_NAME: learning_reactive_mongo
-
-REDIS_HOST: localhost
-REDIS_PORT: 6379
-
-KAFKA_HOST: localhost:9092
-KAFKA_SECURITY_PROTOCOL: PLAINTEXT
+server:
+  port: 8084
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_HOST:localhost:9092}
+    properties:
+      security:
+        protocol: PLAINTEXT
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_HOST:postgres-reinaldi}:${POSTGRES_PORT:5432}/${POSTGRES_DB_NAME:learning_reactive_r2dbc}?connectTimeout=30&socketTimeout=30
+    username: ${POSTGRES_USER:postgresql}
+    password: ${POSTGRES_PASS:postgresql}
+    locations: classpath:db/migration
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER:admin}:${MONGO_PASS:admin}@${MONGO_HOST:localhost}/${MONGO_DB_NAME:learning}?authSource=admin
+      database: ${MONGO_DB_NAME:learning}
+      uuid-representation: standard
+      auto-index-creation: true

@@ -77,7 +77,7 @@ public class ExternalAPIController {
         return Mono.just(random)
                 .map(r -> r.nextInt(10))
                 .filter(number -> number < 5)
-                .flatMap(number -> Mono.delay(Duration.ofSeconds(60)))
+                //.flatMap(number -> Mono.delay(Duration.ofSeconds(1)))
                 .then(Mono.defer(this::buildPercentageRate));
     }
 

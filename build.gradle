@@ -11,12 +11,6 @@ java {
     sourceCompatibility = '21'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -28,30 +22,44 @@ configurations {
 }
 
 dependencies {
-    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-webflux')
-    implementation (group: 'org.springframework.boot', name:'spring-boot-starter-data-r2dbc')
-    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb-reactive')
-    implementation (group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis-reactive')
-    implementation (group: 'org.springframework.kafka', name: 'spring-kafka')
-    implementation (group: 'io.projectreactor.kafka', name:'reactor-kafka', version: "$kafka")
+    // Spring Boot starters
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'org.springframework.kafka:spring-kafka'
 
-    implementation (group: 'net.datafaker', name: 'datafaker', version: "$faker")
-    implementation (group: 'ch.qos.logback', name: 'logback-classic')
+    // Otros
+    implementation 'org.flywaydb:flyway-core:10.14.0'
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.108.Final:osx-aarch_64'
+    implementation "io.projectreactor.kafka:reactor-kafka:$kafka"
+    implementation "net.datafaker:datafaker:$faker"
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'io.lettuce:lettuce-core:6.7.1.RELEASE'
+    implementation 'org.apache.kafka:kafka-clients'
 
-    runtimeOnly (group: 'org.postgresql', name: 'postgresql')
-    runtimeOnly (group: 'org.postgresql', name: 'r2dbc-postgresql')
+    // Base de datos
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:r2dbc-postgresql'
 
-    compileOnly (group: 'org.projectlombok', name: 'lombok')
-    annotationProcessor (group: 'org.projectlombok', name: 'lombok')
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation (group: 'org.springframework.boot', name:'spring-boot-starter-test')
-    testImplementation (group: 'de.flapdoodle.embed', name: 'de.flapdoodle.embed.mongo', version: "$embeddedMongo")
-    testImplementation (group: 'com.github.codemonstur', name: 'embedded-redis', version: "$embeddedRedis")
-    testImplementation (group: 'io.projectreactor', name: 'reactor-test')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "de.flapdoodle.embed:de.flapdoodle.embed.mongo:$embeddedMongo"
+    testImplementation "com.github.codemonstur:embedded-redis:$embeddedRedis"
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 
+// Agrega Mockito para JUnit 5
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
-    //exclude 'cl/tenpo/learning/reactive/tasks/task1/**'
 }

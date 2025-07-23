@@ -1,3 +1,6 @@
+server:
+  port: ${APPLICATION_PORT}
+
 spring:
   webflux:
     base-path: /learning-reactive
@@ -19,28 +22,7 @@ spring:
     properties:
       security:
         protocol: ${KAFKA_SECURITY_PROTOCOL}
-    consumer:
-      auto-offset-reset: earliest
-      enable-auto-commit: false
-      group-id: learning-reactive-test-group
-    producer:
-      properties:
-        spring:
-          json:
-            add:
-              type:
-                headers: false
-
-kafka:
-  topics:
-    retry-exhausted: TEST_CR_RETRY_EXHAUSTED
-    cc-evaluation: TEST_CC_EVALUATION_EVENTS
-  groups:
-    retry-exhausted: test-retry-group
-    cc-evaluation: test-cc-group
-
-server:
-  port: ${APPLICATION_PORT:8083}
-  reactive:
-    session:
-      timeout: 70s
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_API_CLIENT}" password="${KAFKA_API_SECRET}";

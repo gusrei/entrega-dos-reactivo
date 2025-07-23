@@ -6,8 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
-@EnableR2dbcRepositories
-@EnableReactiveMongoRepositories
+
+@EnableR2dbcRepositories(basePackages = "cl.tenpo.learning.reactive.tasks.task2.repository")
+@EnableReactiveMongoRepositories(basePackages = "cl.tenpo.learning.reactive.tasks.task2.mongo.repository")
 @ComponentScan(basePackages = "cl.tenpo.learning.reactive")
 @SpringBootApplication
 public class T2Application {
